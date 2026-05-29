@@ -169,7 +169,7 @@ export default function App() {
         <header className="topbar">
           <div>
             <p className="eyebrow">Fictional company interface</p>
-            <h1>Payroll Control Center</h1>
+            <h1>HELLO MAEEE Payroll Control Center</h1>
             <p className="subtitle">
               A polished, clearly fake dashboard for on-camera use.
             </p>
