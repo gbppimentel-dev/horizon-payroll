@@ -287,33 +287,33 @@ export default function App() {
                 <p className="panel-label">Payout module</p>
                 <h2>Payroll Summary</h2>
               </div>
-              <span className="pill">Live on set</span>
+              <span className="pill">Live on Production</span>
             </div>
 
             <div className="summary-box">
               <div className="summary-row">
-                <span>Next payroll date</span>
+                <span>Next Payroll Date</span>
                 <strong>Friday, 9:00 AM</strong>
               </div>
               <div className="summary-row">
-                <span>Deposit target</span>
-                <strong>Horizon Crew Account</strong>
+                <span>Deposit Target</span>
+                <strong>Jiro</strong>
               </div>
               <div className="summary-row">
-                <span>Approval state</span>
-                <strong>Ready for demo</strong>
+                <span>Approval State</span>
+                <strong>BYPASSED</strong>
               </div>
               <div className="summary-row">
-                <span>Payment gateway</span>
-                <strong>Visual simulation only</strong>
+                <span>Payment Gateway</span>
+                <strong>Bank VISA</strong>
               </div>
             </div>
 
             <div className="callout">
-              <h3>Demo banner preview</h3>
+              <h3>Banner Preview</h3>
               <p>
-                Clicking <strong>Run Demo Payroll</strong> shows a fake deposit
-                notice for filming purposes.
+                Clicking <strong>Run Payroll</strong> applies the deposit
+                to selected target
               </p>
             </div>
           </article>
@@ -322,8 +322,8 @@ export default function App() {
         <section className="panel" id="activity">
           <div className="panel-header">
             <div>
-              <p className="panel-label">Recent activity</p>
-              <h2>On-screen events</h2>
+              <p className="panel-label">Recent Activity</p>
+              <h2>On-Screen Events</h2>
             </div>
           </div>
 
@@ -331,22 +331,22 @@ export default function App() {
             <div className="activity-item">
               <span className="dot green" />
               <div>
-                <strong>Payroll batch prepared</strong>
-                <p>Demo wage data staged for the next fake processing cycle.</p>
+                <strong>Payroll Batch prepared</strong>
+                <p>Wage data staged for the next processing cycle.</p>
               </div>
             </div>
             <div className="activity-item">
               <span className="dot yellow" />
               <div>
-                <strong>Deposit banner ready</strong>
-                <p>Fictional notification is enabled for prop playback only.</p>
+                <strong>Deposit Ready</strong>
+                <p>Bank is enabled for immediate processing.</p>
               </div>
             </div>
             <div className="activity-item">
               <span className="dot blue" />
               <div>
-                <strong>Employee list updated</strong>
-                <p>New demo staff records can be added from the form above.</p>
+                <strong>Employee List Updated</strong>
+                <p>New Staff Records are added from the form above.</p>
               </div>
             </div>
           </div>
