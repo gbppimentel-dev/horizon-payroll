@@ -38,7 +38,7 @@ const initialEmployees = [
 function money(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "PHP",
     maximumFractionDigits: 0,
   }).format(value);
 }
