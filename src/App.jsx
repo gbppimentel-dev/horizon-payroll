@@ -72,9 +72,9 @@ export default function App() {
   const runDemoPayroll = () => {
     const depositedAmount = Math.round(totalPayroll * 0.35);
     setBannerText(
-      `DEMO ONLY — Fictional deposit of ${money(
+      `Deposit of ${money(
         depositedAmount
-      )} processed to Horizon Crew Account`
+      )} processed to Jiro SURNAME HERE`
     );
     setBanner(true);
 
@@ -127,18 +127,17 @@ export default function App() {
         <div className="brand">
           <div className="brand-mark">H</div>
           <div>
-            <div className="brand-title">Horizon</div>
-            <div className="brand-subtitle">Payroll Demo</div>
+            <div className="brand-title">Horizon Data Corp.</div>
+            <div className="brand-subtitle">Payroll System</div>
           </div>
         </div>
 
-        <div className="sidebar-card warning-card">
-          <div className="warning-title">DEMO PROP ONLY</div>
-          <p>
-            Fictional payroll interface for filming. No real banking, no real
-            payroll, no live accounts.
-          </p>
-        </div>
+      <div className="sidebar-card warning-card">
+  <div className="warning-title">Admin Access</div>
+  <p>
+    Payroll interface for managing employee records. Please process salary allocations to employee accounts and maintain the confidentiality of this information.
+  </p>
+</div>
 
         <nav className="nav">
           <a href="#dashboard">Dashboard</a>
@@ -150,15 +149,15 @@ export default function App() {
         <div className="sidebar-card small-metrics">
           <div className="metric-line">
             <span>Pay cycle</span>
-            <strong>Weekly</strong>
+            <strong>Monthly</strong>
           </div>
           <div className="metric-line">
             <span>Status</span>
-            <strong>Demo mode</strong>
+            <strong>LIVE Production</strong>
           </div>
           <div className="metric-line">
-            <span>Bank link</span>
-            <strong>Disconnected</strong>
+            <span>Bank Link</span>
+            <strong>Connected</strong>
           </div>
         </div>
       </aside>
@@ -168,10 +167,10 @@ export default function App() {
 
         <header className="topbar">
           <div>
-            <p className="eyebrow">Fictional company interface</p>
+            <p className="eyebrow">HDC company interface</p>
             <h1>HELLO MAEEE Payroll Control Center</h1>
             <p className="subtitle">
-              A polished, clearly fake dashboard for on-camera use.
+              Payroll Dashboard
             </p>
           </div>
 
@@ -182,7 +181,7 @@ export default function App() {
 
         <section className="stats" id="dashboard">
           <article className="stat-card">
-            <span>Total Demo Payroll</span>
+            <span>Total Payroll</span>
             <strong>{money(totalPayroll)}</strong>
           </article>
           <article className="stat-card">
@@ -204,16 +203,16 @@ export default function App() {
             <div className="panel-header">
               <div>
                 <p className="panel-label">Employee directory</p>
-                <h2>Fictional Staff</h2>
+                <h2>Company Staff</h2>
               </div>
-              <span className="pill">Demo data</span>
+              <span className="pill">Confidential Data</span>
             </div>
 
             <form className="form" onSubmit={addDemoEmployee}>
               <div className="form-row">
                 <input
                   type="text"
-                  placeholder="Employee name"
+                  placeholder="Employee Name"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                 />
@@ -244,7 +243,7 @@ export default function App() {
               </div>
 
               <button className="secondary-button" type="submit">
-                Add Demo Employee
+                Add Employee
               </button>
             </form>
 
