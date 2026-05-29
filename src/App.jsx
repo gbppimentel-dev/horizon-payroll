@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 
 const initialEmployees = [
@@ -154,6 +154,44 @@ function DemoModal({ open, title, message, onClose }) {
   );
 }
 
+function MobileBlocked() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#d7d7d7",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "560px",
+          background: "#efefef",
+          border: "2px solid #8a8a8a",
+          padding: "28px",
+          textAlign: "center",
+          color: "#222",
+        }}
+      >
+        <h1 style={{ margin: "0 0 16px" }}>Horizon Data Corp.</h1>
+        <h2 style={{ margin: "0 0 12px", color: "#8B0000" }}>
+          Unsupported Device
+        </h2>
+        <p style={{ margin: 0, lineHeight: 1.6, color: "#444" }}>
+          This application is not supported on mobile devices.
+          <br />
+          Please open it on a desktop or laptop screen.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [employees, setEmployees] = useState(initialEmployees);
   const [banner, setBanner] = useState({
@@ -161,10 +199,20 @@ export default function App() {
     title: "",
     message: "",
   });
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1024);
   const [newName, setNewName] = useState("");
   const [newRole, setNewRole] = useState("");
   const [newDept, setNewDept] = useState("Production");
   const [newSalary, setNewSalary] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const totalPayroll = useMemo(
     () => employees.reduce((sum, emp) => sum + emp.salary, 0),
@@ -194,19 +242,16 @@ export default function App() {
   const runDemoPayroll = () => {
     const depositedAmount = Math.round(totalPayroll * 0.35);
 
-openBanner(
-  "Deposit Processed",
-  <>
-    Deposit of{" "}
-    <strong style={{ color: "#008000" }}>
-      {money(depositedAmount)}
-    </strong>{" "}
-    processed to{" "}
-    <strong style={{ color: "#cc0000" }}>
-      Jiro SURNAME HERE
-    </strong>.
-  </>
-);
+    openBanner(
+      "Deposit Processed",
+      <>
+        Deposit of{" "}
+        <strong style={{ color: "#008000" }}>{money(depositedAmount)}</strong>{" "}
+        processed to{" "}
+        <strong style={{ color: "#cc0000" }}>Jiro SURNAME HERE</strong>.
+      </>
+    );
+
     setEmployees((prev) =>
       prev.map((emp) => ({
         ...emp,
@@ -241,6 +286,10 @@ openBanner(
       "DEMO ONLY — New fictional employee record added to the payroll list."
     );
   };
+
+  if (!isDesktop) {
+    return <MobileBlocked />;
+  }
 
   return (
     <div className="app-shell">
@@ -280,7 +329,7 @@ openBanner(
           </div>
           <div className="metric-line">
             <span>Bank Link</span>
-            <strong>Connected</strong>
+            <strong style={{ color: "#006400" }}>Connected</strong>
           </div>
         </div>
       </aside>
@@ -414,17 +463,28 @@ openBanner(
                 <span>Next Payroll Date</span>
                 <strong>Friday, 9:00 AM</strong>
               </div>
+
               <div className="summary-row">
                 <span>Deposit Target</span>
                 <strong>Jiro</strong>
               </div>
+
               <div className="summary-row">
                 <span>Approval State</span>
-                <strong>BYPASSED</strong>
+                <strong style={{ color: "#8B0000" }}>BYPASSED</strong>
               </div>
+
               <div className="summary-row">
                 <span>Payment Gateway</span>
-                <strong>Bank VISA</strong>
+                <img
+                  src="/visa.svg"
+                  alt="Visa"
+                  style={{
+                    height: "22px",
+                    width: "auto",
+                    display: "block",
+                  }}
+                />
               </div>
             </div>
 
