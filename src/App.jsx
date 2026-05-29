@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import ReactDOM from "react-dom";
 
 const initialEmployees = [
   {
@@ -43,10 +44,123 @@ function money(value) {
   }).format(value);
 }
 
+const overlayStyle = {
+  position: "fixed",
+  inset: 0,
+  background: "rgba(0,0,0,0.45)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 99999,
+  padding: "20px",
+};
+
+const cardStyle = {
+  width: "min(520px, 100%)",
+  background: "#efefef",
+  border: "2px solid #7f7f7f",
+  borderRadius: 0,
+  boxShadow: "0 18px 50px rgba(0,0,0,0.35)",
+  padding: "18px",
+  color: "#222",
+};
+
+const headerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  gap: "16px",
+  borderBottom: "1px solid #b0b0b0",
+  paddingBottom: "12px",
+  marginBottom: "14px",
+};
+
+const eyebrowStyle = {
+  margin: "0 0 6px",
+  fontSize: "0.75rem",
+  fontWeight: 700,
+  letterSpacing: "0.08em",
+  color: "#444",
+  textTransform: "uppercase",
+};
+
+const closeButtonStyle = {
+  width: "34px",
+  height: "34px",
+  border: "1px solid #7f7f7f",
+  background: "#d7d7d7",
+  color: "#111",
+  borderRadius: 0,
+  fontSize: "1.4rem",
+  lineHeight: 1,
+  cursor: "pointer",
+  flexShrink: 0,
+};
+
+const messageStyle = {
+  margin: "0 0 16px",
+  color: "#333",
+  lineHeight: 1.5,
+};
+
+const footerStyle = {
+  display: "flex",
+  justifyContent: "flex-end",
+};
+
+function DemoModal({ open, title, message, onClose }) {
+  if (!open) return null;
+
+  return ReactDOM.createPortal(
+    <div style={overlayStyle} onClick={onClose}>
+      <div
+        style={cardStyle}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="demo-modal-title"
+        aria-describedby="demo-modal-message"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div style={headerStyle}>
+          <div>
+            <p style={eyebrowStyle}>NOTICE</p>
+            <h3 id="demo-modal-title" style={{ margin: 0 }}>
+              {title}
+            </h3>
+          </div>
+
+          <button
+            style={closeButtonStyle}
+            type="button"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+
+        <p id="demo-modal-message" style={messageStyle}>
+          {message}
+        </p>
+
+        <div style={footerStyle}>
+          <button className="secondary-button" type="button" onClick={onClose}>
+            CLOSE
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 export default function App() {
   const [employees, setEmployees] = useState(initialEmployees);
-  const [banner, setBanner] = useState(false);
-  const [bannerText, setBannerText] = useState("");
+  const [banner, setBanner] = useState({
+    open: false,
+    title: "",
+    message: "",
+  });
   const [newName, setNewName] = useState("");
   const [newRole, setNewRole] = useState("");
   const [newDept, setNewDept] = useState("Production");
@@ -69,25 +183,36 @@ export default function App() {
     return Math.round(totalPayroll / employees.length);
   }, [employees.length, totalPayroll]);
 
+  const openBanner = (title, message) => {
+    setBanner({ open: true, title, message });
+  };
+
+  const closeBanner = () => {
+    setBanner((prev) => ({ ...prev, open: false }));
+  };
+
   const runDemoPayroll = () => {
     const depositedAmount = Math.round(totalPayroll * 0.35);
-    setBannerText(
-      `Deposit of ${money(
-        depositedAmount
-      )} processed to Jiro SURNAME HERE`
-    );
-    setBanner(true);
 
+openBanner(
+  "Deposit Processed",
+  <>
+    Deposit of{" "}
+    <strong style={{ color: "#008000" }}>
+      {money(depositedAmount)}
+    </strong>{" "}
+    processed to{" "}
+    <strong style={{ color: "#cc0000" }}>
+      Jiro SURNAME HERE
+    </strong>.
+  </>
+);
     setEmployees((prev) =>
       prev.map((emp) => ({
         ...emp,
         status: "Paid",
       }))
     );
-
-    window.setTimeout(() => {
-      setBanner(false);
-    }, 4500);
   };
 
   const addDemoEmployee = (e) => {
@@ -111,14 +236,10 @@ export default function App() {
     setNewDept("Production");
     setNewSalary("");
 
-    setBannerText(
-      "DEMO ONLY — New fictional employee record added to the payroll list"
+    openBanner(
+      "Employee Record Added",
+      "DEMO ONLY — New fictional employee record added to the payroll list."
     );
-    setBanner(true);
-
-    window.setTimeout(() => {
-      setBanner(false);
-    }, 3500);
   };
 
   return (
@@ -132,12 +253,14 @@ export default function App() {
           </div>
         </div>
 
-      <div className="sidebar-card warning-card">
-  <div className="warning-title">Admin Access</div>
-  <p>
-    Payroll interface for managing employee records. Please process salary allocations to employee accounts and maintain the confidentiality of this information.
-  </p>
-</div>
+        <div className="sidebar-card warning-card">
+          <div className="warning-title">Admin Access</div>
+          <p className="justified-text">
+            Payroll interface for managing employee records. Please process
+            salary allocations to employee accounts and maintain the
+            confidentiality of this information.
+          </p>
+        </div>
 
         <nav className="nav">
           <a href="#dashboard">Dashboard</a>
@@ -163,19 +286,15 @@ export default function App() {
       </aside>
 
       <main className="main">
-        {banner && <div className="deposit-banner">{bannerText}</div>}
-
         <header className="topbar">
           <div>
             <p className="eyebrow">HDC company interface</p>
             <h1>HELLO MAEEE Payroll Control Center</h1>
-            <p className="subtitle">
-              Payroll Dashboard
-            </p>
+            <p className="subtitle">Payroll Dashboard</p>
           </div>
 
           <button className="primary-button" onClick={runDemoPayroll}>
-            Run Demo Payroll
+            Run Payroll
           </button>
         </header>
 
@@ -312,8 +431,8 @@ export default function App() {
             <div className="callout">
               <h3>Banner Preview</h3>
               <p>
-                Clicking <strong>Run Payroll</strong> applies the deposit
-                to selected target
+                Clicking <strong>Run Payroll</strong> opens a reusable modal
+                with the deposit notice.
               </p>
             </div>
           </article>
@@ -352,6 +471,13 @@ export default function App() {
           </div>
         </section>
       </main>
+
+      <DemoModal
+        open={banner.open}
+        title={banner.title}
+        message={banner.message}
+        onClose={closeBanner}
+      />
     </div>
   );
 }
